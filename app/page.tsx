@@ -1,4 +1,5 @@
 import { InscriptionForm } from "./components/inscription-form";
+import { BuyButton } from "./components/buy-button";
 
 const SITE = "https://tatalali.com";
 
@@ -29,7 +30,7 @@ const courseSchema = {
   offers: {
     "@type": "Offer",
     availability: "https://schema.org/PreOrder",
-    price: "0",
+    price: "2.00",
     priceCurrency: "EUR",
     url: SITE,
   },
@@ -181,15 +182,16 @@ export default function Home() {
 
         <section className="px-6 md:px-10 pt-20 md:pt-32 pb-20 md:pb-32">
           <div className="max-w-[720px] mx-auto">
-            <span className="tag-band mb-8">Pré-inscriptions</span>
+            <span className="tag-band mb-8">Pré-réservations · 2€</span>
             <h1 className="h-display text-[44px] md:text-[72px] leading-[1.02] mb-8">
               Apprendre l'IA,<br />sans paniquer.
             </h1>
-            <p className="text-[19px] md:text-[22px] leading-relaxed max-w-[560px] opacity-80">
+            <p className="text-[19px] md:text-[22px] leading-relaxed max-w-[560px] opacity-80 mb-10">
               Un manuel illustré, pour les 45-65 ans qui veulent comprendre
               l'intelligence artificielle. Sans jargon, sans peur, sans
               survendre.
             </p>
+            <BuyButton source="hero" label="Réserver pour 2€" />
           </div>
         </section>
 
@@ -328,16 +330,32 @@ export default function Home() {
         </div>
 
         <section className="px-6 md:px-10 py-20 md:py-32">
-          <div className="max-w-[720px] mx-auto">
-            <span className="tag-band mb-8">Pré-inscription</span>
-            <h2 className="h-display text-[32px] md:text-[44px] mb-6">
-              Recevez un mot quand on ouvre.
-            </h2>
-            <p className="text-[17px] md:text-[19px] opacity-80 mb-12 leading-relaxed">
-              Ouverture printemps 2026. Pas de date exacte annoncée pour
-              l'instant. Un seul message, le jour J.
-            </p>
-            <InscriptionForm source="cta-bas" />
+          <div className="max-w-[720px] mx-auto space-y-12">
+            <div>
+              <span className="tag-band mb-8">Réserver maintenant · 2€</span>
+              <h2 className="h-display text-[32px] md:text-[44px] mb-6">
+                Bloquez votre place pour 2€.
+              </h2>
+              <p className="text-[17px] md:text-[19px] opacity-80 mb-10 leading-relaxed">
+                30 leçons, une par jour, à votre rythme. Livraison printemps
+                2026 par mail. Paiement Stripe sécurisé.
+              </p>
+              <BuyButton source="cta-bas" label="Réserver pour 2€" />
+            </div>
+
+            <div className="divider-rule" />
+
+            <div>
+              <span className="tag-band mb-8">Ou laissez juste un mail</span>
+              <h2 className="h-display text-[28px] md:text-[36px] mb-6">
+                Pas prêt·e à payer ? Gardez juste un fil.
+              </h2>
+              <p className="text-[17px] md:text-[19px] opacity-80 mb-10 leading-relaxed">
+                On vous envoie un seul message le jour de l'ouverture. Aucun
+                spam. Aucune newsletter.
+              </p>
+              <InscriptionForm source="cta-bas" />
+            </div>
           </div>
         </section>
 
