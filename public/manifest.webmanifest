@@ -1,0 +1,11 @@
+{
+  "name": "Tata Lali",
+  "short_name": "Tata Lali",
+  "description": "Apprendre l'IA, sans paniquer. Manuel illustré pour les 45-65 ans.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F2EDE4",
+  "theme_color": "#F2EDE4",
+  "lang": "fr",
+  "icons": []
+}
