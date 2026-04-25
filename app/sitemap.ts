@@ -1,20 +1,22 @@
 import type { MetadataRoute } from "next";
+import { LOCALES, HREFLANG } from "@/i18n/config";
+
+const SITE = "https://tatalali.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://tatalali.com",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-      alternates: {
-        languages: {
-          "fr-FR": "https://tatalali.com",
-          "fr-BE": "https://tatalali.com",
-          "fr-CH": "https://tatalali.com",
-          "fr-CA": "https://tatalali.com",
-        },
-      },
-    },
-  ];
+  const lastModified = new Date();
+
+  const languages: Record<string, string> = {};
+  for (const l of LOCALES) {
+    languages[HREFLANG[l]] = `${SITE}/${l}`;
+  }
+  languages["x-default"] = `${SITE}/fr`;
+
+  return LOCALES.map((locale) => ({
+    url: `${SITE}/${locale}`,
+    lastModified,
+    changeFrequency: "weekly" as const,
+    priority: locale === "fr" ? 1 : 0.8,
+    alternates: { languages },
+  }));
 }

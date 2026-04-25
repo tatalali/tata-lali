@@ -1,13 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/types";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-export function InscriptionForm({ source = "landing" }: { source?: string }) {
+export function InscriptionForm({
+  source = "landing",
+  locale = "fr",
+  dict,
+}: {
+  source?: string;
+  locale?: Locale;
+  dict?: Dictionary;
+}) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+
+  const t = dict?.ctaSubscribe ?? {
+    cta: "M'inscrire",
+    placeholder: "prenom.nom@exemple.fr",
+    label: "Votre adresse e-mail",
+    successCaption: "Inscrit · Merci",
+    successMsg: "Merci. Vous recevrez un mot quand on ouvre.",
+    successFootnote:
+      "Aucun mail intermédiaire. Pas de newsletter. Juste un message le jour de l'ouverture.",
+    legal:
+      "Une seule adresse, gardée chez nous. Pas de revente. Pas de newsletter. Vous pouvez vous désinscrire en répondant stop.",
+    h2: "",
+    sub: "",
+    tagline: "",
+  };
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -19,7 +44,7 @@ export function InscriptionForm({ source = "landing" }: { source?: string }) {
       const res = await fetch("/api/inscription", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source }),
+        body: JSON.stringify({ email, source, locale }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
@@ -28,30 +53,25 @@ export function InscriptionForm({ source = "landing" }: { source?: string }) {
 
       if (!res.ok || !data.ok) {
         setStatus("error");
-        setMessage(data.message ?? "Quelque chose n'a pas fonctionné. Réessayez.");
+        setMessage(data.message ?? t.successMsg);
         return;
       }
 
       setStatus("success");
-      setMessage(data.message ?? "Merci. Vous recevrez un mot quand on ouvre.");
+      setMessage(data.message ?? t.successMsg);
       setEmail("");
     } catch {
       setStatus("error");
-      setMessage("Réseau indisponible. Réessayez dans un instant.");
+      setMessage(t.successMsg);
     }
   }
 
   if (status === "success") {
     return (
       <div className="space-y-4">
-        <p className="caption">Inscrit · Merci</p>
-        <p className="text-[19px] md:text-[22px] leading-snug">
-          {message}
-        </p>
-        <p className="text-[15px] opacity-60">
-          Aucun mail intermédiaire. Pas de newsletter. Juste un message le jour
-          de l'ouverture.
-        </p>
+        <p className="caption">{t.successCaption}</p>
+        <p className="text-[19px] md:text-[22px] leading-snug">{message}</p>
+        <p className="text-[15px] opacity-60">{t.successFootnote}</p>
       </div>
     );
   }
@@ -59,7 +79,7 @@ export function InscriptionForm({ source = "landing" }: { source?: string }) {
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-6">
       <label className="block">
-        <span className="caption block mb-3">Votre adresse e-mail</span>
+        <span className="caption block mb-3">{t.label}</span>
         <input
           type="email"
           inputMode="email"
@@ -67,7 +87,7 @@ export function InscriptionForm({ source = "landing" }: { source?: string }) {
           required
           aria-required="true"
           aria-invalid={status === "error"}
-          placeholder="prenom.nom@exemple.fr"
+          placeholder={t.placeholder}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="field-line"
@@ -80,7 +100,7 @@ export function InscriptionForm({ source = "landing" }: { source?: string }) {
         disabled={status === "loading" || email.length < 4}
         className="btn-alert w-full md:w-auto"
       >
-        {status === "loading" ? "Envoi…" : "M'inscrire"}
+        {status === "loading" ? "…" : t.cta}
       </button>
 
       {status === "error" && message && (
@@ -94,8 +114,7 @@ export function InscriptionForm({ source = "landing" }: { source?: string }) {
       )}
 
       <p className="text-[14px] md:text-[15px] opacity-60 leading-relaxed">
-        Une seule adresse, gardée chez nous. Pas de revente. Pas de newsletter.
-        Vous pouvez vous désinscrire en répondant <i>stop</i>.
+        {t.legal}
       </p>
     </form>
   );

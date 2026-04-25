@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/types";
 
 type Status = "idle" | "loading" | "error";
 
@@ -8,13 +10,24 @@ export function BuyButton({
   source = "cta-buy",
   label = "Réserver pour 2€",
   variant = "primary",
+  locale = "fr",
+  dict,
 }: {
   source?: string;
   label?: string;
   variant?: "primary" | "ghost";
+  locale?: Locale;
+  dict?: Dictionary;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+
+  const t = dict?.buyButton ?? {
+    paymentSecure:
+      "Paiement sécurisé Stripe. 2€ pour réserver les 30 leçons. Vous recevrez la première leçon le jour de l'ouverture, printemps 2026.",
+    redirecting: "Redirection…",
+    errorDefault: "Indisponible. Réessayez.",
+  };
 
   async function onClick() {
     if (status === "loading") return;
@@ -24,7 +37,7 @@ export function BuyButton({
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source }),
+        body: JSON.stringify({ source, locale }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
@@ -33,13 +46,13 @@ export function BuyButton({
       };
       if (!res.ok || !data.ok || !data.url) {
         setStatus("error");
-        setMessage(data.message ?? "Indisponible. Réessayez.");
+        setMessage(data.message ?? t.errorDefault);
         return;
       }
       window.location.href = data.url;
     } catch {
       setStatus("error");
-      setMessage("Réseau indisponible. Réessayez dans un instant.");
+      setMessage(t.errorDefault);
     }
   }
 
@@ -54,7 +67,7 @@ export function BuyButton({
         disabled={status === "loading"}
         className={className}
       >
-        {status === "loading" ? "Redirection…" : label}
+        {status === "loading" ? t.redirecting : label}
       </button>
       {status === "error" && message && (
         <p
@@ -66,8 +79,7 @@ export function BuyButton({
         </p>
       )}
       <p className="text-[14px] opacity-60 leading-relaxed">
-        Paiement sécurisé Stripe. 2€ pour réserver les 30 leçons. Vous recevrez
-        la première leçon le jour de l'ouverture, printemps 2026.
+        {t.paymentSecure}
       </p>
     </div>
   );
