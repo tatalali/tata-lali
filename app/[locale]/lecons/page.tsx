@@ -7,14 +7,14 @@ import { OUTLINE } from "@/data/programme-30-lecons";
 
 export const dynamic = "force-dynamic";
 
-type ChapterMeta = { number: number; titleFr: string; descFr: string };
+type PhaseMeta = { number: number; titleFr: string; descFr: string };
 
-const CHAPTERS: Record<string, ChapterMeta[]> = {
+const PHASES: Record<string, PhaseMeta[]> = {
   fr: [
-    { number: 1, titleFr: "Comprendre", descFr: "10 leçons pour démystifier l'IA, sans jargon." },
-    { number: 2, titleFr: "Essayer", descFr: "10 usages concrets dès demain matin." },
-    { number: 3, titleFr: "Discerner", descFr: "5 leçons pour reconnaître ce qui est vrai, faux, douteux." },
-    { number: 4, titleFr: "Vivre avec", descFr: "5 leçons pour faire sa place à l'IA dans la vie." },
+    { number: 1, titleFr: "Mettre le pied dedans", descFr: "7 jours pour ouvrir un chatbot sans peur." },
+    { number: 2, titleFr: "Faire des choses utiles", descFr: "8 jours pour produire des résultats tangibles au quotidien." },
+    { number: 3, titleFr: "Aller plus loin", descFr: "7 jours pour passer du débutant au pratiquant." },
+    { number: 4, titleFr: "Vivre avec lucidement", descFr: "8 jours pour décider quand utiliser, quand pas." },
   ],
 };
 
@@ -37,7 +37,7 @@ export default async function LeconsIndex({ params }: { params: Promise<{ locale
     // DB not reachable in dev, fall through with empty set
   }
 
-  const chapters = CHAPTERS[locale] ?? CHAPTERS.fr;
+  const phases = PHASES[locale] ?? PHASES.fr;
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-16">
@@ -52,15 +52,15 @@ export default async function LeconsIndex({ params }: { params: Promise<{ locale
       </div>
 
       <div className="space-y-12">
-        {chapters.map((chap) => {
-          const items = OUTLINE.filter((o) => o.chapter === chap.number);
+        {phases.map((ph) => {
+          const items = OUTLINE.filter((o) => o.phase === ph.number);
           return (
-            <section key={chap.number}>
+            <section key={ph.number}>
               <header className="mb-4 border-b border-stone-200 pb-2">
                 <h2 className="font-serif text-2xl text-stone-900">
-                  Chapitre {chap.number} <span className="text-stone-400">·</span> {chap.titleFr}
+                  Phase {ph.number} <span className="text-stone-400">·</span> {ph.titleFr}
                 </h2>
-                <p className="mt-1 text-sm text-stone-500">{chap.descFr}</p>
+                <p className="mt-1 text-sm text-stone-500">{ph.descFr}</p>
               </header>
               <ul className="divide-y divide-stone-100">
                 {items.map((o) => {
