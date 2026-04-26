@@ -32,11 +32,15 @@ function pickLocaleFromAcceptLanguage(header: string | null): Locale {
 export function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
-  // Skip API, _next, and static assets
+  // Skip API, _next, static assets, and Next.js image-metadata routes
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/.well-known") ||
+    pathname.startsWith("/admin") ||
+    pathname === "/icon" ||
+    pathname === "/apple-icon" ||
+    pathname === "/opengraph-image" ||
     pathname.includes(".") // static files: favicon.ico, sitemap.xml, etc.
   ) {
     return NextResponse.next();
@@ -57,5 +61,6 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|icon|apple-icon|opengraph-image|sitemap.xml|robots.txt|admin).*)"],
 };
