@@ -122,6 +122,7 @@ export const es: Dictionary = {
       "Pago seguro Stripe. 2 € para reservar las 30 lecciones. Recibirá la primera el día de la apertura, primavera 2026.",
     redirecting: "Redirigiendo…",
     errorDefault: "No disponible. Inténtelo de nuevo.",
+    stripeNotReady: "Reserva aún no activa. Inscríbase abajo y le avisaremos.",
   },
   merci: {
     badge: "Confirmado",

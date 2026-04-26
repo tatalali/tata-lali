@@ -122,6 +122,7 @@ export const en: Dictionary = {
       "Secure Stripe payment. €2 to reserve the 30 lessons. You'll receive the first lesson the day we open, Spring 2026.",
     redirecting: "Redirecting…",
     errorDefault: "Unavailable. Please try again.",
+    stripeNotReady: "Pre-orders not yet active. Sign up below and we'll notify you.",
   },
   merci: {
     badge: "Confirmed",

@@ -122,6 +122,7 @@ export const nl: Dictionary = {
       "Beveiligde Stripe-betaling. 2 € om de 30 lessen te reserveren. U ontvangt de eerste les op de openingsdag, voorjaar 2026.",
     redirecting: "Doorverwijzen…",
     errorDefault: "Niet beschikbaar. Probeer opnieuw.",
+    stripeNotReady: "Voorinschrijving nog niet actief. Meld u hieronder aan.",
   },
   merci: {
     badge: "Bevestigd",

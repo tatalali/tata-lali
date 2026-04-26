@@ -42,11 +42,15 @@ export function BuyButton({
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
         url?: string;
-        message?: string;
+        code?: string;
       };
       if (!res.ok || !data.ok || !data.url) {
         setStatus("error");
-        setMessage(data.message ?? t.errorDefault);
+        setMessage(
+          data.code === "stripe_not_configured"
+            ? t.stripeNotReady ?? t.errorDefault
+            : t.errorDefault
+        );
         return;
       }
       window.location.href = data.url;

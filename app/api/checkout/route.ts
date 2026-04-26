@@ -91,11 +91,7 @@ export async function POST(request: NextRequest) {
   const secretKey = process.env.STRIPE_SECRET_KEY;
   if (!secretKey) {
     return Response.json(
-      {
-        ok: false,
-        message:
-          "La pré-réservation payante n'est pas encore branchée. Inscrivez-vous à la liste plus bas, on vous écrit le jour J.",
-      },
+      { ok: false, code: "stripe_not_configured" },
       { status: 503 },
     );
   }
@@ -162,11 +158,7 @@ export async function POST(request: NextRequest) {
     if (!res.ok || !data.url) {
       console.error("[checkout] Stripe error", res.status, data.error);
       return Response.json(
-        {
-          ok: false,
-          message:
-            "Le paiement est temporairement indisponible. Réessayez dans une minute.",
-        },
+        { ok: false, code: "stripe_error" },
         { status: 502 },
       );
     }
@@ -175,7 +167,7 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error("[checkout] fetch Stripe failed", err);
     return Response.json(
-      { ok: false, message: "Réseau indisponible. Réessayez dans un instant." },
+      { ok: false, code: "network_error" },
       { status: 502 },
     );
   }

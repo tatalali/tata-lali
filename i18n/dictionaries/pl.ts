@@ -123,6 +123,7 @@ export const pl: Dictionary = {
       "Bezpieczna płatność Stripe. 2 € za rezerwację 30 lekcji. Otrzyma Pan/Pani pierwszą lekcję w dniu otwarcia, wiosną 2026.",
     redirecting: "Przekierowanie…",
     errorDefault: "Niedostępne. Proszę spróbować ponownie.",
+    stripeNotReady: "Przedsprzedaż jeszcze nieaktywna. Zapisz się poniżej.",
   },
   merci: {
     badge: "Potwierdzone",

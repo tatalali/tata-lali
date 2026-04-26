@@ -50,7 +50,7 @@ export type Dictionary = {
     };
   };
   footer: { brand: string; description: string; copyright: string; madeIn: string };
-  buyButton: { paymentSecure: string; redirecting: string; errorDefault: string };
+  buyButton: { paymentSecure: string; redirecting: string; errorDefault: string; stripeNotReady?: string };
   merci: {
     badge: string;
     h1Top: string;
