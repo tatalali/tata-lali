@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start -p 4328",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "lessons:seed": "tsx scripts/seed-lessons.ts",
+    "lessons:generate": "tsx scripts/generate-lessons.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.1",
@@ -19,6 +21,8 @@
     "stripe": "^18.2.1"
   },
   "devDependencies": {
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
